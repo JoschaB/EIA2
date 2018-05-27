@@ -2,13 +2,13 @@ var MemoryEvents;
 (function (MemoryEvents) {
     document.addEventListener("DOMContentLoaded", main);
     // Variablen deklarieren
-    var cardText = ["Hund", "Panda", "Seepferdchen", "Wolf", "Reh", "Tiger", "Koala", "Affe", "Jaguar", "Luchs"];
-    var cardsArray = [];
-    var numCardPairs;
-    var numPlayers;
-    var playerInfo;
-    var gameBoard;
-    var numCardsOpen = 0;
+    let cardText = ["Hund", "Panda", "Seepferdchen", "Wolf", "Reh", "Tiger", "Koala", "Affe", "Jaguar", "Luchs"];
+    let cardsArray = [];
+    let numCardPairs;
+    let numPlayers;
+    let playerInfo;
+    let gameBoard;
+    let numCardsOpen = 0;
     // Hauptfunktion
     function main() {
         // Anzahl Kartenpaare
@@ -25,23 +25,23 @@ var MemoryEvents;
         playerInfo = document.getElementById("game-info");
         gameBoard = document.getElementById("card-container");
         // Karten erzeugen
-        for (var i = 0; i < numCardPairs; i++) {
+        for (let i = 0; i < numCardPairs; i++) {
             createCards(cardText[i]);
         }
         // Karten mischen
         shuffleArray(cardsArray);
         // Karten anzeigen
-        for (var i = 0; i < cardsArray.length; i++) {
+        for (let i = 0; i < cardsArray.length; i++) {
             gameBoard.appendChild(cardsArray[i]);
         }
         // Spieler Anzeige generieren
-        for (var i = 1; i < numPlayers; i++) {
+        for (let i = 1; i < numPlayers; i++) {
             createPlayer("" + (i + 1));
         }
         // Funkiton - Karten erzeugen
         function createCards(_cardContent) {
-            for (var i = 0; i < 2; i++) {
-                var card = document.createElement("div");
+            for (let i = 0; i < 2; i++) {
+                let card = document.createElement("div");
                 card.innerHTML = "<span>" + _cardContent + "</span>";
                 card.setAttribute("class", "card hidden");
                 cardsArray.push(card);
@@ -50,24 +50,25 @@ var MemoryEvents;
         }
         // Funktion - Spieler erzeugen
         function createPlayer(_name) {
-            var player = document.createElement("div");
-            player.innerHTML = "\n            <span class=\"player-name\">Spieler: " + _name + "</span>\n            <span class=\"player-score\">Punkte: 0</span>";
+            let player = document.createElement("div");
+            player.innerHTML = `
+            <span class="player-name">Spieler: ${_name}</span>
+            <span class="player-score">Punkte: 0</span>`;
             playerInfo.appendChild(player);
         }
         // Shuffle Array: Fisher-Yates Algorhitmus
         function shuffleArray(_array) {
-            for (var i = _array.length - 1; i > 0; i--) {
-                var j = Math.floor(Math.random() * (i + 1));
-                _a = [_array[j], _array[i]], _array[i] = _a[0], _array[j] = _a[1];
+            for (let i = _array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [_array[i], _array[j]] = [_array[j], _array[i]];
             }
             return _array;
-            var _a;
         }
         // Karte aufdecken
         function showCards(_event) {
             numCardsOpen++;
             if (numCardsOpen < 2) {
-                var target = _event.target;
+                let target = _event.target;
                 if (target.classList.contains("hidden")) {
                     target.classList.remove("hidden");
                     target.classList.add("visible");
@@ -79,9 +80,9 @@ var MemoryEvents;
         }
         // Cards Array filtern und neues Array zur�ckgeben
         function filterCardsBy(_filter) {
-            var array = [];
-            var cardsArray;
-            for (var i = 0; i < cardsArray.lenght; i++) {
+            let array = [];
+            let cardsArray;
+            for (let i = 0; i < cardsArray.lenght; i++) {
                 if (cardsArray[i].classList.contains(_filter)) {
                     array.push(cardsArray[i]);
                 }
@@ -90,15 +91,15 @@ var MemoryEvents;
         }
         // Funktion - Karten vergleichen
         function compareCards() {
-            var openCards = filterCardsBy("visible");
+            let openCards = filterCardsBy("visible");
             if (openCards[0].children[0].innerHTML == openCards[1].children[0].innerHTML) {
-                for (var i = 0; i < openCards.length; i++) {
+                for (let i = 0; i < openCards.length; i++) {
                     openCards[i].classList.remove("visible");
                     openCards[i].classList.add("taken");
                 }
             }
             else {
-                for (var i = 0; i < openCards.length; i++) {
+                for (let i = 0; i < openCards.length; i++) {
                     openCards[i].classList.remove("visible");
                     openCards[i].classList.add("hidden");
                 }
@@ -108,7 +109,7 @@ var MemoryEvents;
             numCardsOpen = 0;
         }
         function checkCardArray() {
-            var takenCards = filterCardsBy("hidden");
+            let takenCards = filterCardsBy("hidden");
             if (takenCards.length == 0) {
                 alert("Gewonnen!");
             }
